@@ -13,7 +13,7 @@ class SummaryScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Summary Screen"),
+        title: const Text("Ringkasan Pengeluaran"),
         centerTitle: true,
       ),
       body: BlocBuilder<ExpenseBloc, ExpenseState>(builder: (context, state) {

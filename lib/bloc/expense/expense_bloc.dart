@@ -15,6 +15,7 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
   }
 
   // Load semua data.
+  // TODO: Add shared preferences
 
   _onExpenseStartedEvent(
       ExpenseStartedEvent event, Emitter<ExpenseState> emit) async {
@@ -114,6 +115,8 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
       }
     }
   }
+
+  // TODO: Edit Expense
 
   // Mengganti bulan yang yang dipilih untuk ditampilakn.
 

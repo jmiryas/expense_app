@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:spending_app/config/custom_app_route.dart';
 
+import '../config/custom_app_route.dart';
 import '../widgets/about_us_widget.dart';
 import '../widgets/alert_select_month_widget.dart';
+
+// TODO: Add toggle theme: dark & light
 
 class DrawerNavigationWidget extends StatelessWidget {
   const DrawerNavigationWidget({Key? key}) : super(key: key);
@@ -12,21 +14,35 @@ class DrawerNavigationWidget extends StatelessWidget {
     return Drawer(
       child: ListView(
         children: [
-          const DrawerHeader(
-            decoration: BoxDecoration(
+          DrawerHeader(
+            decoration: const BoxDecoration(
               color: Colors.blue,
+              image: DecorationImage(
+                fit: BoxFit.cover,
+                image: AssetImage("images/background.jpg"),
+              ),
             ),
-            child: Center(
-              child: Text(
-                "Spending App",
-                style: TextStyle(
-                  fontSize: 25.0,
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.blue.shade400,
+                  borderRadius: BorderRadius.circular(2.0),
+                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 8.0, vertical: 5.0),
+                child: const Text(
+                  "Spending App",
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    letterSpacing: 1.2,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
           ),
+          // TODO: Change category design
           ListTile(
             title: Row(
               children: const [
@@ -147,6 +163,7 @@ class DrawerNavigationWidget extends StatelessWidget {
                   });
             },
           ),
+          // TODO: Add tutorial page.
           ListTile(
             title: Row(
               children: const [
