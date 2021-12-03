@@ -4,6 +4,7 @@ import '../screens/home_screen.dart';
 import '../screens/error_screen.dart';
 import '../screens/summary_screen.dart';
 import '../config/custom_app_route.dart';
+import '../screens/expense_category_screen.dart';
 
 class AppRouter {
   static Route onGenerateRoute(RouteSettings settings) {
@@ -14,6 +15,9 @@ class AppRouter {
       case CustomAppRoute.summaryScreen:
         return CustomAppRoute.goToRoute(
             const SummaryScreen(), CustomAppRoute.summaryScreen);
+      case CustomAppRoute.expenseCategoryScreen:
+        return CustomAppRoute.goToRoute(const ExpenseCategoryScreen(),
+            CustomAppRoute.expenseCategoryScreen);
       default:
         return CustomAppRoute.goToRoute(
             const ErrorScreen(), CustomAppRoute.errorScreen);
