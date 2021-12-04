@@ -24,17 +24,29 @@ class AlertAddExpenseWidget extends StatelessWidget {
     TextEditingController _expenseTotal = TextEditingController();
     DateTime _selectedDate = DateTime.now();
 
+    DateTime _expenseEditDate = DateTime.now();
+
     if (expenseType == ExpenseType.edit) {
       _expenseName.text = money!.label;
       _selectedCategory = getCategoryTypeString(money!.categoryType);
       _expenseTotal.text = money!.money.toString();
       _selectedDate = DateTime.parse(money!.dateTime);
+
+      _expenseEditDate = DateTime.parse(money!.dateTime);
     }
 
     const _uuid = Uuid();
 
     return AlertDialog(
-      title: const Text("Tambah Pengeluaran"),
+      title: expenseType == ExpenseType.edit
+          ? const Text(
+              "Edit Pengeluaran",
+              textAlign: TextAlign.center,
+            )
+          : const Text(
+              "Tambah Pengeluaran",
+              textAlign: TextAlign.center,
+            ),
       content: StatefulBuilder(builder: (context, setState) {
         return SingleChildScrollView(
           child: Column(
@@ -138,31 +150,59 @@ class AlertAddExpenseWidget extends StatelessWidget {
                     );
                   });
             } else {
-              if (expenseType == ExpenseType.edit) {
-                MoneyModel newMoney = MoneyModel(
-                  label: _expenseName.text,
-                  money: double.parse(_expenseTotal.text),
-                  categoryType: getCategoryType(_selectedCategory),
-                  dateTime: _selectedDate.toString().substring(0, 10),
-                );
+              // Jika bulan/tahun yang diinputkan berbeda,
+              // maka tampilkan alert
 
-                BlocProvider.of<ExpenseBloc>(context).add(
-                    ExpenseEditExpenseEvent(
-                        id: money!.id!, newMoney: newMoney));
+              if (_expenseEditDate.toString().substring(0, 10).split("-")[1] !=
+                  _selectedDate.toString().substring(0, 10).split("-")[1]) {
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text(
+                          "Error",
+                          textAlign: TextAlign.center,
+                        ),
+                        content: const Text("Bulan/Tahun tidak boleh berbeda!"),
+                        actions: [
+                          TextButton(
+                            onPressed: () => Navigator.pop(context, 'OK'),
+                            child: const Text('OK'),
+                          ),
+                        ],
+                      );
+                    });
               } else {
-                MoneyModel newMoney = MoneyModel(
-                  id: _uuid.v4(),
-                  label: _expenseName.text,
-                  money: double.parse(_expenseTotal.text),
-                  categoryType: getCategoryType(_selectedCategory),
-                  dateTime: _selectedDate.toString().substring(0, 10),
-                );
+                // Edit pengeluaran
 
-                BlocProvider.of<ExpenseBloc>(context)
-                    .add(ExpenseAddNewEvent(money: newMoney));
+                if (expenseType == ExpenseType.edit) {
+                  MoneyModel newMoney = MoneyModel(
+                    label: _expenseName.text,
+                    money: double.parse(_expenseTotal.text),
+                    categoryType: getCategoryType(_selectedCategory),
+                    dateTime: _selectedDate.toString().substring(0, 10),
+                  );
+
+                  BlocProvider.of<ExpenseBloc>(context).add(
+                      ExpenseEditExpenseEvent(
+                          id: money!.id!, newMoney: newMoney));
+                } else {
+                  // Tambah pengeluaran
+
+                  MoneyModel newMoney = MoneyModel(
+                    id: _uuid.v4(),
+                    label: _expenseName.text,
+                    money: double.parse(_expenseTotal.text),
+                    categoryType: getCategoryType(_selectedCategory),
+                    dateTime: _selectedDate.toString().substring(0, 10),
+                  );
+
+                  BlocProvider.of<ExpenseBloc>(context)
+                      .add(ExpenseAddNewEvent(money: newMoney));
+                }
+
+                Navigator.of(context).pop();
               }
-
-              Navigator.of(context).pop();
             }
           },
           child: const Text("OK"),

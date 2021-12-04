@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grouped_list/grouped_list.dart';
-import 'package:spending_app/enum/expense_type.dart';
 
+import '../enum/expense_type.dart';
 import '../enum/category_type.dart';
 import '../models/money_model.dart';
 import '../bloc/expense/expense_bloc.dart';

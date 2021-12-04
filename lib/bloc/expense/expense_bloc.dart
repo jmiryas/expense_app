@@ -119,6 +119,9 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
   }
 
   // Edit pengeluaran
+  // Ambil semua list yang sesuai dengan bulan yang akan diedit.
+  // Kemudian pilih buat sebuah money model baru.
+  // Gunakan spread (...) untuk memasukkan data tersebut ke state.
 
   _onExpenseEditExpense(
       ExpenseEditExpenseEvent event, Emitter<ExpenseState> emit) {
