@@ -1,24 +1,24 @@
 import 'package:flutter/material.dart';
-import 'package:spending_app/widgets/explanation_widget.dart';
 
 import '../data/data.dart';
+import '../widgets/explanation_widget.dart';
 
-class ExpenseCategoryScreen extends StatelessWidget {
-  const ExpenseCategoryScreen({Key? key}) : super(key: key);
+class TutorialScreen extends StatelessWidget {
+  const TutorialScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Kategori Pengeluaran"),
+        title: const Text("Tutorial Aplikasi"),
       ),
       body: ListView(
         padding: const EdgeInsets.all(20.0),
-        children: expenseCategoryList.map((item) {
+        children: tutorialList.map((item) {
           return ExplanationWidget(
             title: item.title,
-            subtitle: item.description,
+            subtitle: item.subtitle,
             color: item.color,
           );
         }).toList(),

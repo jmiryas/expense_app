@@ -42,7 +42,6 @@ class DrawerNavigationWidget extends StatelessWidget {
               ),
             ),
           ),
-          // TODO: Change category design
           ListTile(
             title: Row(
               children: const [
@@ -108,7 +107,23 @@ class DrawerNavigationWidget extends StatelessWidget {
                   });
             },
           ),
-          // TODO: Add tutorial page.
+          ListTile(
+            title: Row(
+              children: const [
+                Icon(
+                  Icons.wysiwyg,
+                ),
+                SizedBox(
+                  width: 10.0,
+                ),
+                Text(
+                  "Tutorial Aplikasi",
+                )
+              ],
+            ),
+            onTap: () =>
+                Navigator.pushNamed(context, CustomAppRoute.tutorialScreen),
+          ),
           ListTile(
             title: Row(
               children: const [

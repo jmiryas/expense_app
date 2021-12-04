@@ -4,6 +4,7 @@ import '../screens/home_screen.dart';
 import '../screens/error_screen.dart';
 import '../screens/summary_screen.dart';
 import '../config/custom_app_route.dart';
+import '../screens/tutorial_screen.dart';
 import '../screens/expense_category_screen.dart';
 
 class AppRouter {
@@ -18,6 +19,9 @@ class AppRouter {
       case CustomAppRoute.expenseCategoryScreen:
         return CustomAppRoute.goToRoute(const ExpenseCategoryScreen(),
             CustomAppRoute.expenseCategoryScreen);
+      case CustomAppRoute.tutorialScreen:
+        return CustomAppRoute.goToRoute(
+            const TutorialScreen(), CustomAppRoute.tutorialScreen);
       default:
         return CustomAppRoute.goToRoute(
             const ErrorScreen(), CustomAppRoute.errorScreen);
