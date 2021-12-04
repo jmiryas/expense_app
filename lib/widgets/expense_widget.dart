@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grouped_list/grouped_list.dart';
+import 'package:spending_app/enum/expense_type.dart';
 
 import '../enum/category_type.dart';
 import '../models/money_model.dart';
 import '../bloc/expense/expense_bloc.dart';
+import '../widgets/alert_add_expense_widget.dart';
 
 class ExpenseWidget extends StatelessWidget {
   final Map<String, List<Map>> expenseMapList;
@@ -72,6 +74,39 @@ class ExpenseWidget extends StatelessWidget {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
+                    onTap: () {
+                      showDialog<String>(
+                          context: context,
+                          builder: (BuildContext newContext) {
+                            return AlertDialog(
+                              title: const Text(
+                                "Edit?",
+                                textAlign: TextAlign.center,
+                              ),
+                              actions: [
+                                TextButton(
+                                  onPressed: () =>
+                                      Navigator.pop(newContext, "Cancel"),
+                                  child: const Text("Cancel"),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertAddExpenseWidget(
+                                        money: MoneyModel.fromJson(item),
+                                        expenseType: ExpenseType.edit,
+                                      ),
+                                    ).whenComplete(
+                                        () => Navigator.pop(newContext, "OK"));
+                                  },
+                                  child: const Text("OK"),
+                                ),
+                              ],
+                            );
+                          });
+                    },
                     onLongPress: () {
                       showDialog<String>(
                           context: context,

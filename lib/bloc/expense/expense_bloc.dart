@@ -1,4 +1,5 @@
 import 'package:bloc/bloc.dart';
+import 'package:uuid/uuid.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../models/money_model.dart';
@@ -8,10 +9,11 @@ part 'expense_state.dart';
 
 class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
   ExpenseBloc() : super(ExpenseLoadingState()) {
-    on<ExpenseStartedEvent>(_onExpenseStartedEvent);
     on<ExpenseAddNewEvent>(_onExpenseAddNewEvent);
-    on<ExpenseChangeSelectedDateEvent>(_onExpenseChangeSelectedDateEvent);
+    on<ExpenseStartedEvent>(_onExpenseStartedEvent);
+    on<ExpenseEditExpenseEvent>(_onExpenseEditExpense);
     on<ExpenseDeleteExpenseEvent>(_onExpenseDeleteExpenseEvent);
+    on<ExpenseChangeSelectedDateEvent>(_onExpenseChangeSelectedDateEvent);
   }
 
   // Load semua data.
@@ -116,7 +118,52 @@ class ExpenseBloc extends Bloc<ExpenseEvent, ExpenseState> {
     }
   }
 
-  // TODO: Edit Expense
+  // Edit pengeluaran
+
+  _onExpenseEditExpense(
+      ExpenseEditExpenseEvent event, Emitter<ExpenseState> emit) {
+    final state = this.state;
+
+    if (state is ExpenseLoadedState) {
+      try {
+        final dateTimeArray = event.newMoney.dateTime.split("-");
+
+        final year = dateTimeArray[0];
+        final month = dateTimeArray[1];
+
+        final currentMonth = "$month-$year";
+
+        if (state.expenseMapList.containsKey(currentMonth)) {
+          final currentExpense = state.expenseMapList[currentMonth]!
+              .where((item) => item["id"] != event.id)
+              .toList();
+
+          const _uuid = Uuid();
+
+          MoneyModel newMoney = MoneyModel(
+              id: _uuid.v4(),
+              label: event.newMoney.label,
+              money: event.newMoney.money,
+              categoryType: event.newMoney.categoryType,
+              dateTime: event.newMoney.dateTime);
+
+          emit(
+            state.copyWith(newExpenseMapList: {
+              ...state.expenseMapList,
+              currentMonth: [
+                ...currentExpense,
+                newMoney.toMap(),
+              ]
+            }, newSelectedExpenseDate: currentMonth),
+          );
+        }
+      } catch (error) {
+        emit(
+          ExpenseErrorState(error: error),
+        );
+      }
+    }
+  }
 
   // Mengganti bulan yang yang dipilih untuk ditampilakn.
 

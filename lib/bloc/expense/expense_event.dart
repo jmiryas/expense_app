@@ -20,6 +20,24 @@ class ExpenseAddNewEvent extends ExpenseEvent {
   List<Object> get props => [money];
 }
 
+// Edit pengeluaran
+
+class ExpenseEditExpenseEvent extends ExpenseEvent {
+  final String id;
+  final MoneyModel newMoney;
+
+  const ExpenseEditExpenseEvent({
+    required this.id,
+    required this.newMoney,
+  });
+
+  @override
+  List<Object> get props => [
+        id,
+        newMoney,
+      ];
+}
+
 // Menghapus expense
 
 class ExpenseDeleteExpenseEvent extends ExpenseEvent {

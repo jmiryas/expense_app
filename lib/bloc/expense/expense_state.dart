@@ -20,7 +20,6 @@ class ExpenseLoadedState extends ExpenseState {
 
   ExpenseLoadedState copyWith({
     Map<String, List<Map>>? newExpenseMapList,
-    List<Map>? newExpenseList,
     String? newSelectedExpenseDate,
   }) {
     return ExpenseLoadedState(

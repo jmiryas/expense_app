@@ -3,14 +3,14 @@ import 'package:intl/intl.dart';
 import '../enum/category_type.dart';
 
 class MoneyModel {
-  String id;
+  String? id;
   String label;
   double money;
   CategoryType categoryType;
   String dateTime;
 
   MoneyModel({
-    required this.id,
+    this.id,
     required this.label,
     required this.money,
     required this.categoryType,
